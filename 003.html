@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolha de Carros</title>
+</head>
+<body>
+
+<h2>Escolha seus carros favoritos</h2>
+
+<form id="carForm">
+    <label for="nome">Chefe de Equipe:</label><br>
+    <input type="text" id="nome" name="nome" required><br><br>
+
+    <label>Escolha até e somente 3 opções:</label><br>
+    <input type="checkbox" name="carros[]" value="Aston Martin"> Aston Martin<br>
+    <input type="checkbox" name="carros[]" value="Alpha Romeu"> Alpha Romeu<br>
+    <input type="checkbox" name="carros[]" value="Ferrari"> Ferrari<br>
+    <input type="checkbox" name="carros[]" value="Red Bull"> Red Bull<br>
+    <input type="checkbox" name="carros[]" value="Alphine"> Alphine<br>
+    <input type="checkbox" name="carros[]" value="Williams"> Williams<br>
+    <input type="checkbox" name="carros[]" value="McLaren"> McLaren<br>
+    <input type="checkbox" name="carros[]" value="Mercedes"> Mercedes<br>
+    <input type="checkbox" name="carros[]" value="Haas"> Haas<br>
+    <input type="checkbox" name="carros[]" value="Alpha Tauri"> Alpha Tauri<br><br>
+
+    <label for="valores">Digite um valor para cada opção:</label><br>
+    <input type="number" id="valor1" name="valores[]" min="0" max="200" required><br><br>
+    <input type="number" id="valor2" name="valores[]" min="0" max="200"><br><br>
+    <input type="number" id="valor3" name="valores[]" min="0" max="200"><br><br>
+
+    <button type="button" onclick="gerarArquivo()">Gerar Arquivo</button>
+</form>
+
+<script>
+    function gerarArquivo() {
+        // Get form values
+        var nome = document.getElementById("nome").value;
+        var carrosSelecionados = document.querySelectorAll('input[name="carros[]"]:checked');
+        var carros = Array.from(carrosSelecionados).map(checkbox => checkbox.value);
+        var valores = [
+            document.getElementById("valor1").value,
+            document.getElementById("valor2").value,
+            document.getElementById("valor3").value
+        ];
+
+        // Format data as text
+        var texto = "Nome: " + nome + "\nOpções escolhidas:\n";
+        for (var i = 0; i < carros.length; i++) {
+            texto += "- " + carros[i] + ": " + valores[i] + "\n";
+        }
+
+        // Create a blob with the text data
+        var blob = new Blob([texto], { type: "text/plain" });
+
+        // Create a temporary anchor element
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "escolha_carros.txt";
+        
+        // Simulate click on the anchor to trigger download
+        a.click();
+    }
+</script>
+
+</body>
+</html>
